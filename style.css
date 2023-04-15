@@ -1,0 +1,41 @@
+* {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+.game-window {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.gameStart {
+    position: absolute;
+    right: 50%;
+    top: 50%;
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 18.5vh;
+    background-color: lime;
+}
+
+.player,
+.enemy {
+    width: 5vh;
+    height: 5vh;
+    background-color: blue;
+    position: absolute;
+    left: 10vh;
+    bottom: 18.5vh;
+}
+    
+.enemy {
+    background-color: red;
+    left: 100vh;
+}
