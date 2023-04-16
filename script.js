@@ -1,71 +1,89 @@
 const player = document.querySelector(".player")
 const enemy = document.querySelector(".enemy")
 const startGame = document.querySelector(".startGame")
-const enemyBottom = 18.5
-let gameStarted = true
-let playerBottom = 18.5
-let enemyLeft = 100
-let playerLeft = 10
+const ground = document.querySelector(".ground")
+const background = document.querySelector(".background")
+const gameWindow = document.querySelector(".game-window")
+const menuWindow = document.querySelector(".game-menu")
+const enemyBottom = 20
+let enemyX = 300
+let playerX = 30
+const playerWidth = 8
+const enemyWidth = 8
+let gameStarted = false
+let playerBottom = 20
 let isJumping = false
-let widthBetween, heightBetween
 
 startGame.addEventListener("click", () => {
+    menuWindow.style.display = "none"
+    enemy.style.left = 300 + "vh"
+    player.style.bottom = 20 + "vh"
     gameStarted = true
-    enemyMove()
+    Move()
 })
 
 const jump = () => {
     if (!isJumping && gameStarted) {
         isJumping = true
         let timerUpId = setInterval(() => {
-            if (playerBottom >= 40) {
+            playerBottom += 6
+            playerBottom *= 0.90
+            player.style.bottom = playerBottom + 'vh'
+
+            if (playerBottom >= 44) {
                 clearInterval(timerUpId)
                 playerBottom = Math.floor(playerBottom)
                 let timerDownId = setInterval(() => {
-                    if (playerBottom <= 20) {
+                    playerBottom -= 1.5
+                    player.style.bottom = playerBottom + 'vh'
+                    if (playerBottom <= 20 || !gameStarted) {
                         clearInterval(timerDownId)
                         isJumping = false
                     }
-                    playerBottom -= 1
-                    player.style.bottom = playerBottom + 'vh'
                 }, 20)
             }
-            playerBottom += 5
-            playerBottom *= 0.90
-            player.style.bottom = playerBottom + 'vh'
-            console.log(playerBottom)
         }, 20)
     }
 }
 
-const enemyMove = () => {
+let backgroundX = 0
+
+const Move = () => {
     if (gameStarted) {
         let timerUpId = setInterval(() => {
-            widthBetween = enemyLeft - playerLeft - 6
-            heightBetween = enemyBottom + 5 - playerBottom
-            if (widthBetween <= 0 && heightBetween == 0) {
-                clearInterval(timerUpId)
+            enemyX-= 0.4
+            enemy.style.left = enemyX + 'vh'
+
+            background.style.backgroundPositionX = backgroundX + "vh"
+            ground.style.backgroundPositionX = backgroundX + "vh"
+            backgroundX -= 0.4
+
+            if ((enemyX <= playerX + playerWidth) &&
+                (playerBottom <= enemyBottom + 9) &&
+                (enemyX + enemyWidth >= playerX)) {
                 gameStarted = false
-                console.log(widthBetween)
+                player.style.bottom = 20 + "vh"
+                clearInterval(timerUpId)
+
             }
 
-            if (enemyLeft == -10) {
-                enemyLeft = 100
-                enemy.style.left = enemyLeft + "vh"
+            if (enemyX <= -10) {
+                enemyX = Math.random() * 100 + 300
+                enemy.style.left = enemyX + "vw"
             }
-            enemyLeft -= 1
-            enemy.style.left = enemyLeft + 'vh'
-            console.log(playerBottom)
-        }, 20)
+
+        }, 5)
     }
 }
 
 
 
-document.addEventListener("click", () => {
+
+
+gameWindow.addEventListener("click", () => {
     jump()
 })
 
-document.addEventListener("touchstart", () => {
-    jump()
+background.addEventListener("touchstart", () => {
+    //jump()
 })
