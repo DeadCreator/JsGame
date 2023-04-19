@@ -21,6 +21,12 @@
     width: 100vw;
     height: 100vh;
 }
+.info {
+    position: absolute;
+    z-index: 100;
+    color: white;
+    background-color: purple;
+}
 
 .background {
     position: absolute;

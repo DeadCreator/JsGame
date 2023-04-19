@@ -5,6 +5,7 @@ const ground = document.querySelector(".ground")
 const background = document.querySelector(".background")
 const gameWindow = document.querySelector(".game-window")
 const menuWindow = document.querySelector(".game-menu")
+const info = document.querySelector(".info")
 const enemyBottom = 20
 let enemyX = 300
 let playerX = 30
@@ -22,7 +23,7 @@ startGame.addEventListener("click", () => {
     Move()
 })
 
-const jump = () => {
+const jump = async () => {
     if (!isJumping && gameStarted) {
         isJumping = true
         let timerUpId = setInterval(() => {
@@ -47,43 +48,53 @@ const jump = () => {
 }
 
 let backgroundX = 0
+let speed = 100
+let t = Date.now()
 
 const Move = () => {
-    if (gameStarted) {
-        let timerUpId = setInterval(() => {
-            enemyX-= 0.4
-            enemy.style.left = enemyX + 'vh'
 
-            background.style.backgroundPositionX = backgroundX + "vh"
-            ground.style.backgroundPositionX = backgroundX + "vh"
-            backgroundX -= 0.4
+    let timePassed = (Date.now() - t) / 1000
+    t = Date.now()
+    let fps = Math.round(1 / timePassed)
+    info.innerHTML = `FPS: ${fps}`
 
-            if ((enemyX <= playerX + playerWidth) &&
-                (playerBottom <= enemyBottom + 9) &&
-                (enemyX + enemyWidth >= playerX)) {
-                gameStarted = false
-                player.style.bottom = 20 + "vh"
-                clearInterval(timerUpId)
+    backgroundX -= (speed * timePassed)
+    background.style.backgroundPositionX = backgroundX + "vh"
+    ground.style.backgroundPositionX = backgroundX + "vh"
+    enemy.style.left = backgroundX + "vh"
 
-            }
+    if ((enemyX <= playerX + playerWidth) &&
+        (playerBottom <= enemyBottom + 9) &&
+        (enemyX + enemyWidth >= playerX)) {
 
-            if (enemyX <= -10) {
-                enemyX = Math.random() * 100 + 300
-                enemy.style.left = enemyX + "vw"
-            }
-
-        }, 5)
+        gameStarted = false
+        player.style.bottom = 20 + "vh"
+        return
     }
-}
 
 
 
+    if (backgroundX <= -10) {
+        backgroundX = 315
+        enemy.style.left = Math.random()
+    }
 
+
+    window.requestAnimationFrame(Move)
+};
 
 gameWindow.addEventListener("click", () => {
-    jump()
+    if (!isJumping) {
+        jump()
+    }
 })
 
-background.addEventListener("touchstart", () => {
-    //jump()
-})
+
+
+
+
+// background.addEventListener("touchstart", () => {
+//     if (!isJumping) {
+//         jump()
+//     }
+// })
