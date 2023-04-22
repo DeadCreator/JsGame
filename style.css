@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'FFF Forward';
+    src: url('fonts/FFFForward.woff2') format('woff2'),
+        url('fonts/FFFForward.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -9,11 +18,14 @@
     top: 50%;
     right: 50%;
     transform: translate(50%, -50%);
-    width: 100%;
+    width: 80%;
     height: 100%;
+    padding: 0 20%;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(15px);
+    transition: 0.5s;
 }
 
 .game-window {
@@ -28,6 +40,19 @@
     background-color: purple;
 }
 
+.score {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    font-family: 'FFF Forward';
+    font-size: 1.5vw;
+    padding: 2% 1%;
+    color: white;
+    z-index: 10;
+    background-color: black;
+    opacity: 50%;
+}
+
 .background {
     position: absolute;
     bottom: 20vh;
@@ -38,8 +63,18 @@
 }
 
 .startGame {
-    height: 5%;
-    width: 30%;
+    height: 6.5vw;
+    width: 30vw;
+    background: url("images/buttons.jpg") no-repeat center -6.9vw;
+    background-size: 38vw;
+    offset: none;
+    font-family: 'FFF Forward';
+    font-size: 1.5vw;
+}
+
+.startGame:hover {
+    cursor: pointer;
+    background-position: center -24.85vw;
 }
 
 .ground {
@@ -60,10 +95,21 @@
     position: absolute;
     left: 30vh;
     bottom: 20vh;
+    transition: height 0.5s;
 }
     
 .enemy {
     left: 300vh;
     background-image: url("images/web.png");
     background-size: contain;
+}
+
+
+
+
+.no-blur {
+    backdrop-filter: none;
+    transition: 0.5s;
+    height: 0;
+    padding: 0;
 }
